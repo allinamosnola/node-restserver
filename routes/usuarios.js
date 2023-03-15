@@ -15,7 +15,7 @@ const {
     usuariosPut,
 } = require('../comtrollers/usuarios');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { esAdminRole } = require('../middlewares/validar-roles');
+const { esAdminRole, tieneRol } = require('../middlewares/validar-roles');
 
 const router = Router();
 
@@ -53,7 +53,8 @@ router.delete(
     '/:id',
     [
         validarJWT,
-        esAdminRole,
+        // esAdminRole,
+        tieneRol('ADMIN_ROLE', 'NOSE_ROLE'),
         check('id', 'No es un ID válido').isMongoId(),
         check('id').custom(existeUsuarioPorId),
         validarCampos,
